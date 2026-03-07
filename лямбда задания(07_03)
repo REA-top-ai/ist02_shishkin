@@ -1,0 +1,37 @@
+#1
+contains_a = lambda word: 'a' in word
+print(contains_a("apple"))   
+print(contains_a("hello"))
+
+#2
+contains_a = lambda word: 'a' in word
+long_string = lambda string: len(string) > 12
+print(long_string("This is a very long string")) 
+print(contains_a("hello"))
+
+#3
+contains_a = lambda w: 'a' in w
+long_string = lambda s: len(s) > 12
+end_in_a = lambda w: w[-1] == 'a'
+
+print(contains_a("banana"), contains_a("hello"))
+print(long_string("Hello"), long_string("This is a very long string"))
+print(end_in_a("banana"), end_in_a("hello"))
+
+#4
+even_or_odd = lambda num: "четное" if num % 2 == 0 else "нечетное"
+
+print(even_or_odd(5))
+print(even_or_odd(8))
+
+#5
+multiple_of_three = lambda num: "кратное трем" if num % 3 == 0 else "не кратное"
+
+print(multiple_of_three(9))
+print(multiple_of_three(10))
+
+#6
+rate_movie = lambda rating: "Мне понравился этот фильм" if rating > 8.5 else "Этот фильм был не очень хорошим"
+
+print(rate_movie(9.0))
+print(rate_movie(7.0))

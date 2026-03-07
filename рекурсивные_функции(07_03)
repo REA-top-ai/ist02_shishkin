@@ -1,0 +1,38 @@
+import time
+
+# 1. Факториал
+#Рекурсия
+def factorial_recursive(n):
+    if n == 0 or n == 1:
+        return 1
+    return n * factorial_recursive(n - 1)
+
+#Итеративный метод
+def factorial_iterative(n):
+    result = 1
+    for i in range(2, n + 1):
+        result *= i
+    return result
+
+#Сравнение
+n = 20
+start = time.time()
+print(f"Рекурсивный факториал {n}: {factorial_recursive(n)}")
+recursive_time = time.time() - start
+
+start = time.time()
+print(f"Итеративный факториал {n}: {factorial_iterative(n)}")
+iterative_time = time.time() - start
+
+print(f"Время рекурсии: {recursive_time:.6f} сек")
+print(f"Время итерации: {iterative_time:.6f} сек")
+print(f"Итеративный метод быстрее в {recursive_time/iterative_time:.2f} раз(а)" if iterative_time > 0 else "")
+
+# 2. Возведение в квадрат чисел из списка
+def square_list(numbers):
+    return [x ** 2 for x in numbers]
+
+#Пример
+nums = [1, 2, 3, 4, 5]
+print(f"Исходный список: {nums}")
+print(f"Квадраты: {square_list(nums)}")
