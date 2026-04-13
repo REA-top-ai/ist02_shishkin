@@ -14,7 +14,7 @@ def parse_logs(lines):
     parsed = []
     for line in lines:
         parts = line.split("|")
-        data = {"date": parts[0], "level": parts[1]}
+        data = {"date": parts[0], "level": parts[1]} #проверять длину списка
         for f in parts[2].split(" "):
             k, v = f.split("=")
             data[k] = int(v) if v.isdigit() else v
@@ -65,7 +65,7 @@ def print_logs(title, logs_list):
         print(log)
 
 # Программа
-
+#main()
 parsed = parse_logs(logs)
 save_json(parsed)
 
