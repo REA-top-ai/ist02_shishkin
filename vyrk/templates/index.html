@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% block title %}Movie Desk — поиск фильмов{% endblock %}
+
+{% block content %}
+  <section class="workspace">
+    <div class="search-panel">
+      <div class="intro">
+        <h1>Поиск фильмов через OMDb</h1>
+        <p>Введите название, посмотрите данные из API и сохраните нужные фильмы в JSON-базу.</p>
+        {% if demo_mode %}
+          <p class="mode-note">Сейчас включен демо-режим: добавьте OMDB_API_KEY в .env для живого API.</p>
+        {% endif %}
+      </div>
+
+      <form class="search-form" method="get" action="{{ url_for('index') }}">
+        <label>
+          <span>Название</span>
+          <input name="q" value="{{ query }}" placeholder="Например, Matrix">
+        </label>
+        <label>
+          <span>Год</span>
+          <input name="year" value="{{ year }}" inputmode="numeric" placeholder="1999">
+        </label>
+        <button class="button" type="submit">Найти</button>
+      </form>
+    </div>
+
+    <aside class="advice-panel">
+      <h2>{{ advice.title }}</h2>
+      <p>{{ advice.text }}</p>
+      <div class="query-list">
+        {% for item in advice.queries %}
+          <a href="{{ url_for('index', q=item) }}">{{ item }}</a>
+        {% endfor %}
+      </div>
+    </aside>
+  </section>
+
+  <section class="content-grid">
+    <div class="results-column">
+      <div class="section-title">
+        <h2>Результаты поиска</h2>
+        {% if result.movies %}
+          <span>{{ result.movies|length }} найдено</span>
+        {% endif %}
+      </div>
+
+      {% if result.error %}
+        <p class="empty-state">{{ result.error }}</p>
+      {% elif result.movies %}
+        <div class="movie-grid">
+          {% for movie in result.movies %}
+            <article class="movie-card">
+              <a class="poster-link" href="{{ url_for('movie_detail', imdb_id=movie.imdbID) }}">
+                {% if movie.Poster %}
+                  <img src="{{ movie.Poster }}" alt="Постер фильма {{ movie.Title }}">
+                {% else %}
+                  <span class="poster-fallback">Нет постера</span>
+                {% endif %}
+              </a>
+              <div class="movie-card-body">
+                <h3>{{ movie.Title }}</h3>
+                <p>{{ movie.Year }}</p>
+                <div class="card-actions">
+                  <a class="button button-ghost" href="{{ url_for('movie_detail', imdb_id=movie.imdbID) }}">Подробнее</a>
+                  {% if current_user %}
+                    <form method="post" action="{{ url_for('add_favorite') }}">
+                      <input type="hidden" name="imdb_id" value="{{ movie.imdbID }}">
+                      <button class="icon-button" type="submit" aria-label="Добавить в избранное">+</button>
+                    </form>
+                  {% endif %}
+                </div>
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="empty-state">Здесь появятся фильмы после поиска.</p>
+      {% endif %}
+    </div>
+
+    <aside class="favorites-column" id="favorites">
+      <div class="section-title">
+        <h2>Избранное</h2>
+        <span>{{ favorites|length }}</span>
+      </div>
+
+      {% if not current_user %}
+        <p class="empty-state">Войдите через Google, чтобы сохранять фильмы.</p>
+      {% elif favorites %}
+        <div class="favorite-list">
+          {% for movie in favorites %}
+            <article class="favorite-row">
+              {% if movie.Poster %}
+                <img src="{{ movie.Poster }}" alt="">
+              {% else %}
+                <span class="tiny-poster">MD</span>
+              {% endif %}
+              <div>
+                <a href="{{ url_for('movie_detail', imdb_id=movie.imdbID) }}">{{ movie.Title }}</a>
+                <p>{{ movie.Year }} · {{ movie.imdbRating or "N/A" }}</p>
+              </div>
+              <form method="post" action="{{ url_for('remove_favorite') }}">
+                <input type="hidden" name="imdb_id" value="{{ movie.imdbID }}">
+                <button class="icon-button danger" type="submit" aria-label="Удалить из избранного">×</button>
+              </form>
+            </article>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="empty-state">Пока нет сохраненных фильмов.</p>
+      {% endif %}
+    </aside>
+  </section>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}{{ movie.Title }} — Movie Desk{% endblock %}
+
+{% block content %}
+  <section class="detail-layout">
+    <div class="detail-poster">
+      {% if movie.Poster %}
+        <img src="{{ movie.Poster }}" alt="Постер фильма {{ movie.Title }}">
+      {% else %}
+        <span class="poster-fallback">Нет постера</span>
+      {% endif %}
+    </div>
+
+    <article class="detail-content">
+      <a class="back-link" href="{{ url_for('index') }}">← Назад к поиску</a>
+      <h1>{{ movie.Title }}</h1>
+      <p class="detail-meta">{{ movie.Year }} · {{ movie.Runtime }} · IMDb {{ movie.imdbRating }}</p>
+      <p class="plot">{{ movie.Plot }}</p>
+
+      <dl class="facts">
+        <div><dt>Жанр</dt><dd>{{ movie.Genre }}</dd></div>
+        <div><dt>Режиссер</dt><dd>{{ movie.Director }}</dd></div>
+        <div><dt>Актеры</dt><dd>{{ movie.Actors }}</dd></div>
+        <div><dt>Страна</dt><dd>{{ movie.Country }}</dd></div>
+        <div><dt>Язык</dt><dd>{{ movie.Language }}</dd></div>
+        <div><dt>Возрастной рейтинг</dt><dd>{{ movie.Rated }}</dd></div>
+      </dl>
+
+      {% if current_user %}
+        {% if is_saved %}
+          <form method="post" action="{{ url_for('remove_favorite') }}">
+            <input type="hidden" name="imdb_id" value="{{ movie.imdbID }}">
+            <button class="button button-danger" type="submit">Удалить из избранного</button>
+          </form>
+        {% else %}
+          <form method="post" action="{{ url_for('add_favorite') }}">
+            <input type="hidden" name="imdb_id" value="{{ movie.imdbID }}">
+            <button class="button" type="submit">Добавить в избранное</button>
+          </form>
+        {% endif %}
+      {% else %}
+        <a class="button" href="{{ url_for('auth.login', next=request.full_path) }}">Войти и сохранить</a>
+      {% endif %}
+    </article>
+  </section>
+{% endblock %}
