@@ -1,0 +1,27 @@
+{
+	"bmi-installation" : null,
+	"compiler-frontend-variant" : "GNU",
+	"compiler-id" : "GNU",
+	"compiler-simulate-id" : "",
+	"config" : "Debug",
+	"cxx-modules" : {},
+	"database-info" : null,
+	"dir-cur-bld" : "C:/Users/Asus/Desktop/bitm/cmake-build-debug",
+	"dir-cur-src" : "C:/Users/Asus/Desktop/bitm",
+	"dir-top-bld" : "C:/Users/Asus/Desktop/bitm/cmake-build-debug",
+	"dir-top-src" : "C:/Users/Asus/Desktop/bitm",
+	"exports" : [],
+	"forward-modules-from-target-dirs" : [],
+	"include-dirs" : [],
+	"language" : "CXX",
+	"linked-target-dirs" : [],
+	"module-dir" : "C:/Users/Asus/Desktop/bitm/cmake-build-debug/CMakeFiles/bitm.dir",
+	"sources" : 
+	{
+		"CMakeFiles/bitm.dir/main.cpp.obj" : 
+		{
+			"language" : "CXX",
+			"source" : "C:/Users/Asus/Desktop/bitm/main.cpp"
+		}
+	}
+}
